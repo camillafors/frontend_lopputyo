@@ -256,8 +256,8 @@ function showConfirmation(){
     float: none;
   }
   #meal {
-  width:60%;
-  height:70%;
+  width:80%;
+  height:90%;
 }
  
 	}
