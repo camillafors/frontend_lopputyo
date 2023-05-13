@@ -35,7 +35,6 @@ let shoppinglist = [];
 
 	h1 {
 		color: black;
-	
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 500;
@@ -43,17 +42,31 @@ let shoppinglist = [];
 
 	header {
 		background-color: greenyellow;
-		height: 200px;
+		height: 10em;
 		text-align: center;
 		border-style: solid;
   border-color: rgb(71, 32, 115);
 	}
 	#nappi {
-	margin: 30px;
+	margin: 2em;
 }
-	@media (min-width: 640px) {
+	@media (max-width: 640px) {
 		main {
 			max-width: none;
 		}
+		
+	h1 {
+		color: black;
+		text-transform: uppercase;
+		font-size: 2em;
+		font-weight: 4em;
+	}
+	header {
+		background-color: greenyellow;
+		height: 5em;
+		text-align: center;
+		border-style: solid;
+  border-color: rgb(71, 32, 115);
+	}
 	}
 </style>
