@@ -116,12 +116,12 @@ function showConfirmation(){
   {#if naytaNappi}
 <button id="generoinappi" on:click={generoi} >Generate recipe</button>
 {#if naytaGeneroituResepti}
-	<h2 id="">Here is recipe</h2>
+	<h2 id="otsikko">Here is recipe</h2>
   {#each recipes as name}
   <p id="ohjenimi">{name.strMeal}</p>
   {/each}
   {#each recipes as recipe}
-    <img src="{recipe.strMealThumb}" alt="" width="20%" height="30%">
+    <img id="meal" src="{recipe.strMealThumb}" alt="meal" >
 
     <div id="laatikot">
     
@@ -229,5 +229,36 @@ function showConfirmation(){
   font-size: 1.5em;
 }
 
+#laatikot {
+  flex-direction: row;
+}
+#otsikko {
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5em;
+}
+#meal {
+  width:30%;
+  height:40%;
+}
+@media (max-width: 640px) {
+	
 
+    #laatikot {
+      flex-direction: column;
+    }
+    #laatikko1, #laatikko2 {
+    width: 100%;
+    float: none;
+  }
+  #shoppinglist {
+    width: 100%;
+    float: none;
+  }
+  #meal {
+  width:60%;
+  height:70%;
+}
+ 
+	}
 </style>
