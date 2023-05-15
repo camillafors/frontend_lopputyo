@@ -17,7 +17,7 @@ class Ingredient {
 
 export let shoppinglist = [];
 const errMessage = "Kaikki kentät ovat pakollisia";	
-
+//otettu mallia pizzaonline tehtävästä
 let sposti = "";
 	let spostiVierailtu = false;
   let validRegex =/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
