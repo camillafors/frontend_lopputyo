@@ -74,19 +74,23 @@ function recipeFieldsToList(recipe){
    ingredients = [];
   for (let i = 1; i < 21; i++) {
 
-let strIngredientN=strIngredient+i
-let strMeasureN=strMeasure+i
-let ingredient = recipe[strIngredientN]
-let measure = recipe[strMeasureN]
-const incci = new Ingredient(ingredient, measure);
+  let strIngredientN=strIngredient+i
+  let strMeasureN=strMeasure+i
+  let ingredient = recipe[strIngredientN]
+  let measure = recipe[strMeasureN]
+  const incci = new Ingredient(ingredient, measure);
 
 
-if (ingredient === '') {
-  return ingredients
-}
-ingredients.push(incci);
-
-}
+    if (ingredient === '') {
+      return ingredients
+      }
+    
+      if (ingredient === null) {
+        console.log('Null löydetty')
+        continue
+      }
+      ingredients.push(incci);
+  } 
 
 return ingredients
 }
