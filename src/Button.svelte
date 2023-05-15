@@ -1,6 +1,5 @@
 <script>
 
-
 let naytaGeneroituResepti = false;
 export let naytaNappi = false;
 export let selected = '';
@@ -25,16 +24,20 @@ let sposti = "";
 $: spostiKelpaa = sposti.length > 0 && sposti.match(validRegex);
 	$: disabled = !(spostiKelpaa);
 
- 
+ let onkoReseptiNaytetty = false
 
 
 
-
+//näyttää koko reseptin ajamalla tiedot funktion ja asettamalla naytaGeneroituResepti trueksi
+//ajaa reset funktion sen jälkeen, jotta kaikki tarvittavat kentät ja muuttujat tyhjennetään uudelleen painamista varten
 function generoi(){
     naytaGeneroituResepti= true
     tiedot();
-
+    onkoReseptiNaytetty = true
+    reset();
 }
+
+//valitsee satunnaisesti jonkin numeron reseptien pituudesta ja asettaa sen valittuu reseptiin
 function valitseId (){
     let randomValinta = Math.floor(Math.random() * recipes.length);
     
@@ -44,15 +47,17 @@ function valitseId (){
     
   }
 	
+  
   async function tiedot () {
+    //hakee valitse.sveltestä selected arvon ja hakee tietyn kategorian apista
     let kutsuUrl = (`https://www.themealdb.com/api/json/v1/1/filter.php?c=${selected}`)
   let data = await fetch(kutsuUrl);
-  
-		let chosenMeals = await data.json();
+  let chosenMeals = await data.json();
 		recipes = [...chosenMeals.meals];
+
+    // hakee valitun id:n perusteella tiedot apista.
    let valittuId = valitseId();
    kutsuUrl = (`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${valittuId}`)
-   
    data = await fetch(kutsuUrl);
    chosenMeals = await data.json();
 		recipes = [...chosenMeals.meals];
@@ -61,7 +66,7 @@ function valitseId (){
 	};
 
  
-  
+  //laittaa reseptit listaan ja palauttaa sen
 function recipeFieldsToList(recipe){
   const strIngredient = 'strIngredient'
   const strMeasure = 'strMeasure'
@@ -86,12 +91,14 @@ ingredients.push(incci);
 return ingredients
 }
 
+// tekee siirtymän kohtaan id:n perusteella  
 function luoSiirtyma (){
 const generoiNappi= document.getElementById('generoinappi');
 generoiNappi.scrollIntoView({ behavior: 'smooth' });
 
 }
 
+// luo kauppalistan reseptin ainesosista looppaamalla onko ainesosa jo tarkistettu ja palauttaa lopuksi showShoppinglistin truena
 function generateShoppinglist (){
   
   shoppinglist = [];
@@ -104,18 +111,30 @@ for (let i = 0; i < ingredients.length; i++) {
 }
 showShoppinglist = true
 }
-
+//näyttää alert ikkunan ja siellä halutun viestin
 function showConfirmation(){
   alert("The shopping list has been sent successfully!");
   console.log(shoppinglist);
 }
 
+//resetoi checkboxit ja shoppinglistin
+function reset (){
+  if (onkoReseptiNaytetty === true) {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+  shoppinglist = [] ;
+}
+}
+
 </script>
-<main id="grid">
+<main>
 
   {#if naytaNappi}
 <button id="generoinappi" on:click={generoi} >Generate recipe</button>
 {#if naytaGeneroituResepti}
+
 	<h2 id="otsikko">Here is recipe</h2>
   {#each recipes as name}
   <p id="ohjenimi">{name.strMeal}</p>
@@ -127,7 +146,7 @@ function showConfirmation(){
     
     <div id="laatikko1"> 
       <p class="teksti">Ingredients</p>
-    
+      <p class="teksti2">Click what you have in the fridge</p>
     {#each recipeFieldsToList(recipe) as ingredient}
     
       <input  type="checkbox" id={`ingredient_cb_${ingredient.name}`}> {ingredient.amount} {ingredient.name} <br>
@@ -135,6 +154,7 @@ function showConfirmation(){
   </div>
  <div id="laatikko2">
  <p class="teksti">Instruction</p> 
+  
     <p class="ohje">{recipe.strInstructions}</p>
   </div>
   <div id="shoppinglist">
@@ -152,14 +172,12 @@ function showConfirmation(){
    </div>
   </div>
   {/each}
-  
+
 	{/if}
   {/if}
 </main>
 
 <style>
-
-  
 
 #generoinappi {
   
@@ -240,6 +258,14 @@ function showConfirmation(){
 #meal {
   width:30%;
   height:40%;
+}
+
+.teksti2 {
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  text-align: left;
+  
 }
 @media (max-width: 640px) {
 	

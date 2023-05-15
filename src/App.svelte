@@ -2,7 +2,8 @@
 <script>
 	export let name;
 	import Button from "./Button.svelte";
-  import Valitse from "./Valitse.svelte";
+import Valitse from './Valitse.svelte';
+  
 let naytaNappi;
 let selected;
 let ingredients = [];
