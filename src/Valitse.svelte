@@ -6,6 +6,7 @@
 
   export let selected = '';
 // hakee apista kaikki kategoriat
+//tehty aikaisempien tehtävien koodin mukaan
 onMount (async () => {
   let data = await fetch('https://www.themealdb.com/api/json/v1/1/categories.php');
 		let recipeData = await data.json();
